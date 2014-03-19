@@ -6,7 +6,7 @@ module.exports = function(t, expectedRoutes, testRoutes){
 
         t.equal(typeof testRoutes[expectedKeys[i]], 'object', expectedKeys[i] + ' is an object');
 
-        var actualKeys = Object.keys(testRoutes[expectedKeys[i]]);
+        var actualKeys = Object.keys(testRoutes[expectedKeys[i]] || {});
 
         for (var j = 0; j < actualKeys.length; j++) {
             t.ok(~expectedRoutes[expectedKeys[i]].indexOf(actualKeys[j]), actualKeys[j] + ' was added for ' + expectedKeys[i]);
