@@ -30,7 +30,7 @@ test('routeTester passes on correct routes', function (t) {
 });
 
 test('routeTester fails on missing route', function (t) {
-    t.plan(6);
+    t.plan(7);
 
     var expectedRoutes = {
             '/foo': ['POST'],
@@ -42,9 +42,19 @@ test('routeTester fails on missing route', function (t) {
                 'PUT': function(){}
             }
         },
+        originalFail = t.fail,
         originalOk = t.ok,
         originalEqual = t.equal,
         testFramework = t;
+
+        testFramework.fail = function(message){
+            if(message === '/foo route is missing'){
+                t.pass('/foo route validly missing');
+                return;
+            }
+
+            originalFail.apply(this, arguments);
+        };
 
         testFramework.ok = function(value, message){
             if(!value){
@@ -68,6 +78,40 @@ test('routeTester fails on missing route', function (t) {
             originalEqual.apply(this, arguments);
         };
 
+
+    routeTester(testFramework, expectedRoutes, actualRoutes);
+});
+
+test('routeTester fails on missing route', function (t) {
+    t.plan(8);
+
+    var expectedRoutes = {
+            '/foo': ['POST'],
+            '/foo/`bar`': ['GET', 'PUT']
+        },
+        actualRoutes = {
+            '/majigger': {
+                'GET': function(){}
+            },
+            '/foo': {
+                'POST': function(){}
+            },
+            '/foo/`bar`': {
+                'GET': function(){},
+                'PUT': function(){}
+            }
+        },
+        originalFail = t.fail,
+        testFramework = t;
+
+        testFramework.fail = function(message){
+            if(message === '/majigger is additional to expected routes'){
+                t.pass('/majigger validly additional');
+                return;
+            }
+
+            originalFail.apply(this, arguments);
+        };
 
     routeTester(testFramework, expectedRoutes, actualRoutes);
 });
