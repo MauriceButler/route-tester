@@ -106,3 +106,37 @@ test('routeTester fails on additional method', function (t) {
 
     routeTester(testFramework, expectedRoutes, actualRoutes);
 });
+
+test('routeTester fails on missing method', function (t) {
+    t.plan(7);
+
+    var expectedRoutes = {
+            '/foo': ['POST'],
+            '/foo/`bar`': ['GET']
+        },
+        actualRoutes = {
+            '/foo': {
+                'POST': function(){}
+            },
+            '/foo/`bar`': {
+                'GET': function(){},
+                'PUT': function(){}
+            }
+        },
+        originalOk = t.ok,
+        testFramework = t;
+
+        testFramework.ok = function(value, message){
+            if(!value){
+                if(message === 'PUT was added for /foo/`bar`'){
+                    t.pass('PUT validly missing');
+                    return;
+                }
+            }
+
+            originalOk.apply(this, arguments);
+        };
+
+
+    routeTester(testFramework, expectedRoutes, actualRoutes);
+});
