@@ -1,0 +1,31 @@
+{
+  "name": "route-tester",
+  "version": "0.0.0",
+  "description": "Tests the the correct routes and methods are available on a route object. Also ensures no additionals",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/MauriceButler/route-tester.git"
+  },
+  "keywords": [
+    "route",
+    "tester",
+    "counter",
+    "grape",
+    "tape",
+    "beeline",
+    "routes"
+  ],
+  "author": "Maurice Butler <maurice.butler@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MauriceButler/route-tester/issues"
+  },
+  "homepage": "https://github.com/MauriceButler/route-tester",
+  "devDependencies": {
+    "grape": "^0.1.10"
+  }
+}
